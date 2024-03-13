@@ -1,3 +1,5 @@
+package Game;
+
 public class GameResult {
 
     boolean isCompleted;

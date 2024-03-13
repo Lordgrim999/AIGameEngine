@@ -1,14 +1,18 @@
-public class Main {
-    public static void main(String[] args) {
+import Boards.TicTacToeBoard;
+import Game.Board;
+import Game.GameResult;
+import Game.Move;
+import Game.Player;
 
-    }
+public class GameEngine {
+
 
     public Board start()
     {
         return new Board();
     }
 
-    public void move(Board board,Player player,Move move)
+    public void move(Board board, Player player, Move move)
     {
 
     }
@@ -24,10 +28,10 @@ public class Main {
             for(int i=0;i<3;i++)
             {
                 isComplete=true;
-                firstCharacter=board1.cells[i][0];
+                firstCharacter=board1.getCell(i,0);
                 for(int j=1;j<3;j++)
                 {
-                    if(!board1.cells[i][j].equals(firstCharacter)) {
+                    if(!board1.getCell(i,j).equals(firstCharacter)) {
                         isComplete = false;
                         break;
                     }
@@ -41,10 +45,10 @@ public class Main {
             for(int i=0;i<3;i++)
             {
                 isComplete=true;
-                firstCharacter=board1.cells[0][i];
+                firstCharacter=board1.getCell(0,i);
                 for(int j=1;j<3;j++)
                 {
-                    if(!board1.cells[j][i].equals(firstCharacter)) {
+                    if(!board1.getCell(i,j).equals(firstCharacter)) {
                         isComplete = false;
                         break;
                     }
@@ -56,11 +60,11 @@ public class Main {
 
             }
             isComplete=true;
-            firstCharacter=board1.cells[0][0];
+            firstCharacter=board1.getCell(0,0);
             for(int i=1;i<3;i++)
             {
 
-                if(!board1.cells[i][i].equals(firstCharacter))
+                if(!board1.getCell(i,i).equals(firstCharacter))
                 {
                     isComplete=false;
                     break;
@@ -72,11 +76,11 @@ public class Main {
             }
 
             isComplete=true;
-            firstCharacter=board1.cells[0][2];
+            firstCharacter=board1.getCell(0,2);
             for(int i=1;i<3;i++)
             {
 
-                if(!board1.cells[i][2-i].equals(firstCharacter))
+                if(!board1.getCell(i,2-i).equals(firstCharacter))
                 {
                     isComplete=false;
                     break;
