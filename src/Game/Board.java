@@ -1,4 +1,9 @@
 package Game;
 
-public class Board {
+import Boards.Cell;
+
+public abstract class Board {
+
+    public abstract void move(Move move);
+
 }
