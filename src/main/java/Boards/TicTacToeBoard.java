@@ -1,23 +1,27 @@
 package Boards;
 
-import Game.Board;
+
 import Game.Move;
 
-public class TicTacToeBoard extends Board {
+public class TicTacToeBoard implements Board {
 
 
 
     String[][] cells =new String[3][3];
 
 
-    public String getCell(int i, int j) {
+    public String getSymbol(int i, int j) {
         return cells[i][j];
     }
 
 
     public void setCell(String symbol, Cell cell) {
-
-            cells[cell.row][cell.col] = symbol;
+            if(cells[cell.row][cell.col]==null)
+                cells[cell.row][cell.col] = symbol;
+            else {
+                System.out.println(this);
+                throw new IllegalArgumentException("cell already occupied "+cell.row+" "+cell.col);
+            }
 
 
     }
@@ -41,5 +45,15 @@ public class TicTacToeBoard extends Board {
     @Override
     public void move(Move move) {
         setCell(move.getPlayer().getSymbol(),move.getCell());
+    }
+
+    @Override
+    public TicTacToeBoard copy() {
+        TicTacToeBoard board=new TicTacToeBoard();
+        for(int i=0;i<3;i++)
+        {
+            System.arraycopy(cells[i],0,board.cells[i],0,3);
+        }
+        return board;
     }
 }

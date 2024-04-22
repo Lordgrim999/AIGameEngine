@@ -1,6 +1,8 @@
-package Boards;
+package api;
 
-import Game.Board;
+
+import Boards.TicTacToeBoard;
+import Boards.Board;
 import Game.GameState;
 
 public class RuleEngine {
@@ -15,11 +17,11 @@ public class RuleEngine {
             for(int i=0;i<3;i++)
             {
 
-                firstCharacter=board1.getCell(i,0);
+                firstCharacter=board1.getSymbol(i,0);
                 isComplete= firstCharacter != null;
                 if(firstCharacter!=null) {
                     for (int j = 1; j < 3; j++) {
-                        if (!firstCharacter.equals(board1.getCell(i, j))) {
+                        if (!firstCharacter.equals(board1.getSymbol(i, j))) {
                             isComplete = false;
                             break;
                         }
@@ -34,11 +36,11 @@ public class RuleEngine {
             for(int i=0;i<3;i++)
             {
 
-                firstCharacter=board1.getCell(0,i);
+                firstCharacter=board1.getSymbol(0,i);
                 isComplete= firstCharacter != null;
                 if(firstCharacter!=null) {
                     for (int j = 1; j < 3; j++) {
-                        if (!firstCharacter.equals(board1.getCell(j,i))) {
+                        if (!firstCharacter.equals(board1.getSymbol(j,i))) {
                             isComplete = false;
                             break;
                         }
@@ -51,12 +53,12 @@ public class RuleEngine {
 
             }
 
-            firstCharacter=board1.getCell(0,0);
+            firstCharacter=board1.getSymbol(0,0);
             isComplete= firstCharacter != null;
             if(firstCharacter!=null) {
                 for (int i = 1; i < 3; i++) {
 
-                    if (!firstCharacter.equals(board1.getCell(i, i))) {
+                    if (!firstCharacter.equals(board1.getSymbol(i, i))) {
                         isComplete = false;
                         break;
                     }
@@ -68,12 +70,12 @@ public class RuleEngine {
             }
 
 
-            firstCharacter=board1.getCell(0,2);
+            firstCharacter=board1.getSymbol(0,2);
             isComplete= firstCharacter != null;
             if(firstCharacter!=null) {
                 for (int i = 1; i < 3; i++) {
 
-                    if (!firstCharacter.equals(board1.getCell(i, 2 - i))) {
+                    if (!firstCharacter.equals(board1.getSymbol(i, 2 - i))) {
                         isComplete = false;
                         break;
                     }

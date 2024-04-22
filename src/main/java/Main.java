@@ -1,9 +1,12 @@
-import Boards.AIEngine;
+
+
+import Boards.Board;
 import Boards.Cell;
-import Boards.RuleEngine;
-import Game.Board;
 import Game.Move;
 import Game.Player;
+import api.AIEngine;
+import api.GameEngine;
+import api.RuleEngine;
 
 import java.util.Scanner;
 
@@ -36,7 +39,7 @@ public class Main {
 
 
         }
-        System.out.println("Game Result is : "+ruleEngine.getState(board).getWinner());
+        System.out.println("main.java.Game Result is : "+ruleEngine.getState(board).getWinner());
 
     }
 }
