@@ -24,8 +24,8 @@ public class GamePlayTest {
     public void checkForRowWin()
     {
         Board board=gameEngine.start("TicTacToe");
-        int firstPlayerMoves[][]=new int[][]{{1,0},{1,1},{1,2}};
-        int secondPlayerMoves[][]=new int[][]{{0,0},{0,1},{0,2}};
+        int[][] firstPlayerMoves =new int[][]{{1,0},{1,1},{1,2}};
+        int[][] secondPlayerMoves =new int[][]{{0,0},{0,1},{0,2}};
         playGame(board, firstPlayerMoves,secondPlayerMoves);
 
         Assert.assertTrue(ruleEngine.getState(board).isOver());
@@ -38,8 +38,8 @@ public class GamePlayTest {
     {
 
         Board board=gameEngine.start("TicTacToe");
-        int firstPlayerMoves[][]=new int[][]{{1,0},{1,1},{1,2}};
-        int secondPlayerMoves[][]=new int[][]{{0,0},{0,1},{0,2}};
+        int[][] firstPlayerMoves =new int[][]{{1,0},{1,1},{1,2}};
+        int[][] secondPlayerMoves =new int[][]{{0,0},{0,1},{0,2}};
         playGame(board, firstPlayerMoves,secondPlayerMoves);
         Assert.assertTrue(ruleEngine.getState(board).isOver());
         // where "X" is human player
@@ -51,8 +51,8 @@ public class GamePlayTest {
     {
 
         Board board=gameEngine.start("TicTacToe");
-        int firstPlayerMoves[][]=new int[][]{{1,0},{1,1},{1,2}};
-        int secondPlayerMoves[][]=new int[][]{{0,0},{0,1},{0,2}};
+        int[][] firstPlayerMoves =new int[][]{{1,0},{1,1},{1,2}};
+        int[][] secondPlayerMoves =new int[][]{{0,0},{0,1},{0,2}};
         playGame(board, firstPlayerMoves,secondPlayerMoves);
         Assert.assertTrue(ruleEngine.getState(board).isOver());
         // where "X" is human player
@@ -64,8 +64,8 @@ public class GamePlayTest {
     {
 
         Board board=gameEngine.start("TicTacToe");
-        int firstPlayerMoves[][]=new int[][]{{1,0},{1,1},{1,2}};
-        int secondPlayerMoves[][]=new int[][]{{0,0},{0,1},{0,2}};
+        int[][] firstPlayerMoves =new int[][]{{1,0},{1,1},{1,2}};
+        int[][] secondPlayerMoves =new int[][]{{0,0},{0,1},{0,2}};
         playGame(board, firstPlayerMoves,secondPlayerMoves);
         Assert.assertTrue(ruleEngine.getState(board).isOver());
         // where "X" is human player
@@ -77,8 +77,8 @@ public class GamePlayTest {
     {
 
         Board board=gameEngine.start("TicTacToe");
-        int firstPlayerMoves[][]=new int[][]{{1,0},{2,2},{1,2}};
-        int secondPlayerMoves[][]=new int[][]{{0,0},{0,1},{0,2}};
+        int[][] firstPlayerMoves =new int[][]{{1,0},{2,2},{1,2}};
+        int[][] secondPlayerMoves =new int[][]{{0,0},{0,1},{0,2}};
         playGame(board, firstPlayerMoves,secondPlayerMoves);
         Assert.assertTrue(ruleEngine.getState(board).isOver());
         // where "X" is human player
