@@ -1,13 +1,43 @@
 package Boards;
 
 
+import Game.GameState;
 import Game.Move;
+import api.Rule;
+import api.RuleSet;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class TicTacToeBoard implements Board {
 
 
 
     String[][] cells =new String[3][3];
+
+    public static RuleSet<TicTacToeBoard> getRules() {
+        RuleSet<TicTacToeBoard> ruleSet=new RuleSet<>();
+
+        ruleSet.add(new Rule<TicTacToeBoard>(board->findStreak((i, j)->board.getSymbol(i,j))));
+        ruleSet.add(new Rule<TicTacToeBoard>(board->findStreak((i,j)->board.getSymbol(j,i))));
+        ruleSet.add(new Rule<TicTacToeBoard>(board->findDiagStreak((i)->board.getSymbol(i,i))));
+        ruleSet.add(new Rule<TicTacToeBoard>(board->findDiagStreak((i)->board.getSymbol(i,2-i))));
+        ruleSet.add(new Rule<TicTacToeBoard>(board->{
+            int countFilledCells=0;
+            for(int i=0;i<3;i++)
+            {
+                for(int j=0;j<3;j++)
+                {
+                    if(((TicTacToeBoard) board).getSymbol(i,j)!=null)
+                        countFilledCells++;
+                }
+            }
+            if(countFilledCells==9)
+                return new GameState(true,"-");
+            return new GameState(false,null);
+        }));
+        return ruleSet;
+    }
 
 
     public String getSymbol(int i, int j) {
@@ -56,4 +86,38 @@ public class TicTacToeBoard implements Board {
         }
         return board;
     }
+    private static  GameState findStreak(BiFunction<Integer, Integer, String> next) {
+        for (int i = 0; i < 3; i++) {
+            boolean streakComplete = true;
+            for (int j = 0; j < 3; j++) {
+                if (next.apply(i,j)==null || !next.apply(i,0).equals(next.apply(i, j))) {
+                    streakComplete = false;
+                    break;
+                }
+            }
+            if (streakComplete) {
+                return new GameState(true, next.apply(i,0));
+            }
+
+        }
+        return new GameState(false, "-");
+    }
+
+    private static  GameState findDiagStreak(Function<Integer, String> next) {
+
+        boolean streakComplete = true;
+        for (int i = 0; i < 3; i++) {
+            if (next.apply(0)==null || !next.apply(0).equals(next.apply(i))) {
+                streakComplete = false;
+                break;
+            }
+        }
+        if (streakComplete) {
+            return new GameState(true, next.apply(0));
+        }
+
+
+        return new GameState(false,"-");
+    }
 }
+

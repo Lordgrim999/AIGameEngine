@@ -3,39 +3,20 @@ package api;
 
 import Boards.Board;
 import Boards.TicTacToeBoard;
-import Game.GameState;
+import Game.*;
+import Boards.Cell;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+
 
 public class RuleEngine {
-    Map<String, RuleSet<TicTacToeBoard>> ruleMap=new HashMap<>();
+    Map<String, RuleSet> ruleMap=new HashMap<>();
 
     public RuleEngine()
     {
-        ruleMap.put(TicTacToeBoard.class.getName(),new RuleSet<>());
-        ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findStreak((i,j)->board.getSymbol(i,j))));
-        ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findStreak((i,j)->board.getSymbol(j,i))));
-        ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findDiagStreak((i)->board.getSymbol(i,i))));
-        ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findDiagStreak((i)->board.getSymbol(i,2-i))));
-        ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->{
-            int countFilledCells=0;
-            for(int i=0;i<3;i++)
-            {
-                for(int j=0;j<3;j++)
-                {
-                    if(((TicTacToeBoard) board).getSymbol(i,j)!=null)
-                        countFilledCells++;
-                }
-            }
-            if(countFilledCells==9)
-                return new GameState(true,"-");
-            return new GameState(false,null);
-        }));
+        ruleMap.put(TicTacToeBoard.class.getName(),TicTacToeBoard.getRules());
     }
 
     public GameState getState(Board board)
@@ -65,46 +46,60 @@ public class RuleEngine {
 
     }
 
-    private  GameState findStreak(BiFunction<Integer, Integer, String> next) {
-        for (int i = 0; i < 3; i++) {
-            boolean streakComplete = true;
+    public GameInfo getInfo(Board board) {
+        if (board instanceof TicTacToeBoard) {
+            TicTacToeBoard ticTacToeBoard = (TicTacToeBoard) board;
+            GameState gameState = getState(ticTacToeBoard);
+            Cell forkCell=null;
+            for(String playerSymbol:new String[]{"X","O"}){
+            for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    if (next.apply(i,j)==null || !next.apply(i,0).equals(next.apply(i, j))) {
-                        streakComplete = false;
-                        break;
+                    Board boardCopy=board.copy();
+                    Player player=new Player(playerSymbol);
+                    boardCopy.move(new Move(new Cell(i, j),player ));
+                    boolean canStillWin=false;
+                    for(int k=0;k<3;k++)
+                    {
+                        for(int l=0;l<3;l++)
+                        {
+                            Board boardCopy2=boardCopy.copy();
+                            forkCell=new Cell(k, l);
+                            boardCopy2.move(new Move(forkCell, player.flip()));
+                            if(getState(boardCopy2).getWinner().equals(player.flip().getSymbol()))
+                            {
+                                canStillWin=true;
+                                break;
+                            }
+
+                        }
+                        if( canStillWin)
+                        {
+                            break;
+                        }
+                    }
+                    if(canStillWin)
+                    {
+                        return new GameInfoBuilder()
+                            .isOver(gameState.isOver())
+                            .winner(gameState.getWinner()).forkCell(forkCell)
+                            .hasFork(true)
+                            .player(player)
+                            .build();
+
                     }
                 }
-            if (streakComplete) {
-                return new GameState(true, next.apply(i,0));
             }
-
+            }
+            return new GameInfoBuilder()
+                    .hasFork(false)
+                    .winner(gameState.getWinner())
+                    .isOver(gameState.isOver())
+                    .build();
+        } else {
+            throw new IllegalArgumentException();
         }
-        return new GameState(false, "-");
     }
 
-    private  GameState findDiagStreak(Function<Integer, String> next) {
 
-            boolean streakComplete = true;
-            for (int i = 0; i < 3; i++) {
-                if (next.apply(0)==null || !next.apply(0).equals(next.apply(i))) {
-                    streakComplete = false;
-                    break;
-                }
-            }
-            if (streakComplete) {
-                return new GameState(true, next.apply(0));
-            }
-
-
-        return new GameState(false,"-");
-    }
 }
 
-class Rule<T extends Board>
-{
-    Function<T, GameState> condition;
-    public  Rule(Function<T,GameState> condition)
-    {
-        this.condition=condition;
-    }
-}
