@@ -1,8 +1,8 @@
 package api;
 
 
-import Boards.TicTacToeBoard;
 import Boards.Board;
+import Boards.TicTacToeBoard;
 import Game.GameState;
 
 import java.util.ArrayList;
@@ -13,11 +13,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class RuleEngine {
-    Map<String, List<Rule<TicTacToeBoard>>> ruleMap=new HashMap<>();
+    Map<String, RuleSet<TicTacToeBoard>> ruleMap=new HashMap<>();
 
     public RuleEngine()
     {
-        ruleMap.put(TicTacToeBoard.class.getName(),new ArrayList<>());
+        ruleMap.put(TicTacToeBoard.class.getName(),new RuleSet<>());
         ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findStreak((i,j)->board.getSymbol(i,j))));
         ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findStreak((i,j)->board.getSymbol(j,i))));
         ruleMap.get(TicTacToeBoard.class.getName()).add(new Rule<>(board->findDiagStreak((i)->board.getSymbol(i,i))));
@@ -45,7 +45,7 @@ public class RuleEngine {
             GameState gameState;
             TicTacToeBoard board1=(TicTacToeBoard) board;
 
-           List<Rule<TicTacToeBoard>> rules=ruleMap.get(TicTacToeBoard.class.getName());
+           RuleSet<TicTacToeBoard> rules=ruleMap.get(TicTacToeBoard.class.getName());
            for(Rule<TicTacToeBoard> rule:rules)
            {
                 gameState=rule.condition.apply(board1);
@@ -102,7 +102,7 @@ public class RuleEngine {
 
 class Rule<T extends Board>
 {
-    Function<T,GameState> condition;
+    Function<T, GameState> condition;
     public  Rule(Function<T,GameState> condition)
     {
         this.condition=condition;

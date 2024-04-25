@@ -1,6 +1,5 @@
 package Game;
 
-
 import Boards.Cell;
 
 public class Move {

@@ -1,5 +1,6 @@
 package Boards;
 
+
 import Game.Move;
 
 public interface Board {

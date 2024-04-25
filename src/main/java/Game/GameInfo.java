@@ -1,8 +1,5 @@
 package Game;
 
-import Game.GameState;
-import Game.Player;
-
 public class GameInfo {
     private boolean isOver;
     private String winner;
