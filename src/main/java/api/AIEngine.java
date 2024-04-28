@@ -58,12 +58,26 @@ public class AIEngine {
          cellToPlay = defense(board, computerPlayer);
         if ( cellToPlay!= null) return cellToPlay;
 
-        //
+        //3. check for fork move
         GameInfo gameInfo=ruleEngine.getInfo(board);
         if(gameInfo.isHasFork())
         {
             cellToPlay=gameInfo.getForkCell();
             return cellToPlay;
+        }
+
+        //4. check for center position if av. then take it
+        if(board.getSymbol(1,1)==null)
+        {
+            return new Cell(1,1);
+        }
+
+        //5. checking for the corners
+        final int[][] corners=new int[][]{{0,0},{0,2},{2,0},{2,2}};
+        for(int[] corner:corners)
+        {
+            if(board.getSymbol(corner[0],corner[1])!=null)
+                return new Cell(corner[0],corner[1]);
         }
         return getBasicMove(board);
     }
