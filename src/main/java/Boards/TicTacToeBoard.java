@@ -9,20 +9,20 @@ import api.RuleSet;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class TicTacToeBoard implements Board {
+public class TicTacToeBoard implements CellBoard {
 
 
 
     String[][] cells =new String[3][3];
 
-    public static RuleSet<TicTacToeBoard> getRules() {
-        RuleSet<TicTacToeBoard> ruleSet=new RuleSet<>();
+    public static RuleSet getRules() {
+        RuleSet ruleSet=new RuleSet();
 
-        ruleSet.add(new Rule<TicTacToeBoard>(board->findStreak((i, j)->board.getSymbol(i,j))));
-        ruleSet.add(new Rule<TicTacToeBoard>(board->findStreak((i,j)->board.getSymbol(j,i))));
-        ruleSet.add(new Rule<TicTacToeBoard>(board->findDiagStreak((i)->board.getSymbol(i,i))));
-        ruleSet.add(new Rule<TicTacToeBoard>(board->findDiagStreak((i)->board.getSymbol(i,2-i))));
-        ruleSet.add(new Rule<TicTacToeBoard>(board->{
+        ruleSet.add(new Rule(board->findStreak((i, j)->board.getSymbol(i,j))));
+        ruleSet.add(new Rule(board->findStreak((i,j)->board.getSymbol(j,i))));
+        ruleSet.add(new Rule(board->findDiagStreak((i)->board.getSymbol(i,i))));
+        ruleSet.add(new Rule(board->findDiagStreak((i)->board.getSymbol(i,2-i))));
+        ruleSet.add(new Rule(board->{
             int countFilledCells=0;
             for(int i=0;i<3;i++)
             {
