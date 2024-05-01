@@ -33,7 +33,6 @@ public class OffensivePlacement implements Placement{
     }
     private  Cell offense(TicTacToeBoard board, Player computerPlayer) {
 
-        TicTacToeBoard copyBoard=board.copy();
         for(int i=0;i<3;i++)
         {
             for(int j=0;j<3;j++)
@@ -41,7 +40,7 @@ public class OffensivePlacement implements Placement{
                 if(board.getSymbol(i,j)==null)
                 {
                     Move move=new Move(new Cell(i,j),computerPlayer);
-                    copyBoard.move(move);
+                    TicTacToeBoard copyBoard= board.move(move);
                     if(ruleEngine.getState(copyBoard).isOver())
                         return move.getCell();
                 }

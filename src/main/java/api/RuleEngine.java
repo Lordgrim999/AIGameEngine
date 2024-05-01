@@ -54,17 +54,16 @@ public class RuleEngine {
             for(String playerSymbol:new String[]{"X","O"}){
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    Board boardCopy=board.copy();
                     Player player=new Player(playerSymbol);
-                    boardCopy.move(new Move(new Cell(i, j),player ));
+                    Board boardCopy=board.move(new Move(new Cell(i, j),player ));
                     boolean canStillWin=false;
                     for(int k=0;k<3;k++)
                     {
                         for(int l=0;l<3;l++)
                         {
-                            Board boardCopy2=boardCopy.copy();
+
                             forkCell=new Cell(k, l);
-                            boardCopy2.move(new Move(forkCell, player.flip()));
+                            Board boardCopy2=boardCopy.move(new Move(forkCell, player.flip()));
                             if(getState(boardCopy2).getWinner().equals(player.flip().getSymbol()))
                             {
                                 canStillWin=true;

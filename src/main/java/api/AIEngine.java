@@ -68,7 +68,6 @@ public class AIEngine {
 
     private  Cell defense(TicTacToeBoard board, Player computerPlayer) {
 
-        TicTacToeBoard copyBoard=board.copy();
         for(int i=0;i<3;i++)
         {
             for(int j=0;j<3;j++)
@@ -76,7 +75,7 @@ public class AIEngine {
                 if(board.getSymbol(i,j)==null)
                 {
                     Move move=new Move(new Cell(i,j), computerPlayer.flip());
-                    copyBoard.move(move);
+                    TicTacToeBoard copyBoard= board.move(move);
                     if(ruleEngine.getState(copyBoard).isOver())
                         return new Cell(i, j);
                 }
@@ -86,7 +85,7 @@ public class AIEngine {
     }
     private  Cell offense(TicTacToeBoard board, Player computerPlayer) {
 
-        TicTacToeBoard copyBoard=board.copy();
+
         for(int i=0;i<3;i++)
         {
             for(int j=0;j<3;j++)
@@ -94,7 +93,7 @@ public class AIEngine {
                 if(board.getSymbol(i,j)==null)
                 {
                     Move move=new Move(new Cell(i,j),computerPlayer);
-                    copyBoard.move(move);
+                    TicTacToeBoard copyBoard=board.move(move);
                     if(ruleEngine.getState(copyBoard).isOver())
                         return move.getCell();
                 }
