@@ -78,7 +78,7 @@ public class TicTacToeBoard implements CellBoard {
 
     @Override
     public TicTacToeBoard move(Move move) {
-        history.add(this);
+        history.add( new BoardProxy(this));
         TicTacToeBoard copyBoard=copy();
         copyBoard.setCell(move.getPlayer().getSymbol(),move.getCell());
         return copyBoard;
@@ -92,6 +92,7 @@ public class TicTacToeBoard implements CellBoard {
         {
             System.arraycopy(cells[i],0,board.cells[i],0,3);
         }
+        board.history=history;
         return board;
     }
     private static  GameState findStreak(BiFunction<Integer, Integer, String> next) {
@@ -127,12 +128,25 @@ public class TicTacToeBoard implements CellBoard {
 
         return new GameState(false,"-");
     }
+
+    public enum Symbol{
+        X("X"),O("O");
+        final String marker;
+        Symbol(String marker)
+        {
+            this.marker=marker;
+        }
+
+        public String getMarker() {
+            return marker;
+        }
+    }
 }
 
 class History{
-    List<Board> boards=new ArrayList<>();
+    List<BoardProxy> boards=new ArrayList<>();
 
-    public Board getBoardAtMove(int moveIndex){
+    public BoardProxy getBoardAtMove(int moveIndex){
         for(int i=0;i<boards.size()-(moveIndex+1);i++)
         {
             boards.remove(boards.size()-1);
@@ -140,7 +154,7 @@ class History{
         return boards.get(moveIndex);
     }
 
-    public Board undo()
+    public BoardProxy undo()
     {
         if(boards.isEmpty())
             throw new IllegalStateException("there are no previous moves left");
@@ -148,9 +162,9 @@ class History{
         return boards.get(boards.size()-1);
     }
 
-    public void add(Board board)
+    public void add(BoardProxy boardProxy)
     {
-        boards.add(board);
+        boards.add(boardProxy);
     }
 
 }

@@ -25,7 +25,7 @@ public class CenterPlacement implements Placement{
         Cell cellToPlay=null;
         if(board.getSymbol(1,1)==null)
         {
-            cellToPlay= new Cell(1,1);
+            cellToPlay= Cell.getCell(1,1);
         }
         return Optional.ofNullable(cellToPlay);
     }

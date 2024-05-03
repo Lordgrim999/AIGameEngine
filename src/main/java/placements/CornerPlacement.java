@@ -37,7 +37,7 @@ public class CornerPlacement implements Placement{
         for(int[] corner:corners)
         {
             if(board.getSymbol(corner[0],corner[1])!=null) {
-                return new Cell(corner[0], corner[1]);
+                return Cell.getCell(corner[0],corner[1]);
 
             }
         }

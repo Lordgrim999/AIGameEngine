@@ -27,7 +27,7 @@ public class Main {
             Scanner sc=new Scanner(System.in);
             int row=sc.nextInt();
             int col=sc.nextInt();
-            Move humanPlayerMove=new Move(new Cell(row,col),humanPlayer);
+            Move humanPlayerMove=new Move(Cell.getCell(row,col),humanPlayer);
             gameEngine.move(board,humanPlayerMove);
             System.out.println(board.toString());
             if(!ruleEngine.getState(board).isOver())
